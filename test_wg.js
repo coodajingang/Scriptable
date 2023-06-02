@@ -1,7 +1,9 @@
 
 var DARK_MODE_BGCOLOR     = '#262335'
 var LIGHT_MODE_BGCOLOR    = '#4f6a8f'
-
+var PREFER_TRANSPARENT_BG = false
+var nobg = !PREFER_TRANSPARENT_BG ? null 
+    : await importModuleOptional('no-background')
 
 async function createWidget(widgetFamily='large') {  
   
@@ -43,9 +45,10 @@ async function createWidget(widgetFamily='large') {
 
 function addDZ(mainStack, first, second) {
     const subStack = mainStack.addStack()
-    subStack.centerAlignText()
-    subStack.addText(first)
-    subStack.addText(second)
+    const ft = subStack.addText(first)
+    ft.centerAlignText()
+    const st = subStack.addText(second)
+    st.centerAlignText()
 }
 
 
