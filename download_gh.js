@@ -2,7 +2,7 @@
 // input script name 
 // download and  write local 
 
-const download_url = 'https://raw.githubusercontent.com/coodajingang/Scriptable/v2/'
+const download_url = 'https://raw.githubusercontent.com/coodajingang/Scriptable/main/'
 const fm = FileManager.iCloud();
 
 let alert = new Alert();
