@@ -8,7 +8,7 @@ var nobg = !PREFER_TRANSPARENT_BG ? null
 async function createWidget(widgetFamily='large') {  
   
   const widget = new ListWidget()
-  widget.setPadding(0,0,0,0)
+  widget.setPadding(10,30,10,30)
 
   widget.backgroundColor = Color.dynamic(
     new Color(LIGHT_MODE_BGCOLOR), 
@@ -19,12 +19,13 @@ async function createWidget(widgetFamily='large') {
   const headStack = widget.addStack()
   headStack.centerAlignContent()
   headStack.layoutHorizontally()
+  headStack.setPadding(0,0,0,0)
   headStack.addDate(new Date())
-  headStack.addText('农历。。。')
   headStack.addSpacer()
   headStack.addText("nongtli")
   const mainStack = widget.addStack()
   const tailStack = widget.addStack()
+  tailStack.setPadding(0,0,0,0)
   tailStack.centerAlignContent()
   tailStack.layoutHorizontally()
   tailStack.addText("节气。。。。")
@@ -64,7 +65,7 @@ function addDZ(mainStack, first, second) {
     const ft = subStack.addText(first)
     ft.centerAlignText()
     ft.font = Font.title1()
-    subStack.addSpacer()
+    subStack.addSpacer(1.5)
     const st = subStack.addText(second)
     st.centerAlignText()
     st.font = Font.title1()
