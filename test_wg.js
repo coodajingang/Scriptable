@@ -16,13 +16,17 @@ async function createWidget(widgetFamily='large') {
 
   const foreColor = Color.white()
 
-  // setup main container
+  const headStack = widget.addStack()
+  headStack.addDate(new Date())
+  headStack.addText('农历。。。')
   const mainStack = widget.addStack()
+  const tailStack = widget.addStack()
+  tailStack.addText("节气。。。。")
+
   mainStack.setPadding(0,0,0,0)
   mainStack.centerAlignContent()
   mainStack.layoutHorizontally()
 
-  addDZ(mainStack, '甲', '寅')
   mainStack.addSpacer()
   addDZ(mainStack, '甲', '寅')
   mainStack.addSpacer()
@@ -39,16 +43,23 @@ async function createWidget(widgetFamily='large') {
   addDZ(mainStack, '甲', '寅')
   mainStack.addSpacer()
   addDZ(mainStack, '甲', '寅')
-
+  mainStack.addSpacer()
+  addDZ(mainStack, '甲', '寅')
+  mainStack.addSpacer()
   return widget
 }
 
 function addDZ(mainStack, first, second) {
     const subStack = mainStack.addStack()
+    subStack.borderWidth = 2
+    subStack.layoutVertically()
     const ft = subStack.addText(first)
     ft.centerAlignText()
+    ft.font = Font.title1()
+    subStack.addSpacer()
     const st = subStack.addText(second)
     st.centerAlignText()
+    st.font = Font.title1()
 }
 
 
