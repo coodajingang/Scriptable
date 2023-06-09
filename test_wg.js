@@ -55,7 +55,7 @@ async function createWidget(widgetFamily='large') {
   tailStack.layoutHorizontally()
   tailStack.addText(genJieQi(bazi, 0))
   tailStack.addSpacer()
-  tailStack.addText(genJieQi(bazi, 0))
+  tailStack.addText(genJieQi(bazi, 1))
 
   mainStack.setPadding(0,0,0,0)
   mainStack.centerAlignContent()
