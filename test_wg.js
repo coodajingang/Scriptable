@@ -5,7 +5,7 @@ var PREFER_TRANSPARENT_BG = false
 var nobg = !PREFER_TRANSPARENT_BG ? null 
     : await importModuleOptional('no-background')
 
-const bz = await importModuleOptional('bundleprod')
+const bz = await importModule('bundleprod')
 log('Import bazi bundleprod.js')
 
 const yearGZ = '丙寅'
@@ -19,7 +19,7 @@ async function createWidget(widgetFamily='large') {
   
   const widget = new ListWidget()
   widget.setPadding(10,10,10,10)
-  widget.spacing(10)
+  widget.spacing = 10
 
   widget.backgroundColor = Color.dynamic(
     new Color(LIGHT_MODE_BGCOLOR), 
@@ -30,7 +30,16 @@ async function createWidget(widgetFamily='large') {
   const now = new Date();
   const bazi = bz.calendarDayInfo(now.getFullYear(), now.getMonth()+1, now.getDate(), 3);
   const hour = now.getHours();
-  const hGZ = bazi.bazi.hs[Math.floor((hour+1)/2)]
+  const hIndex = Math.floor((hour+1)/2);
+  const hGZ = bazi.bazi.hs[hIndex]
+
+  const refreshDate = new Date()
+  refreshDate.setHours(hIndex*2 - 1)
+  refreshDate.setMinutes(0)
+  refreshDate.setSeconds(0)
+  refreshDate.setMilliseconds(0)
+  refreshDate.setHours(refreshDate.getHours() + 2)
+  widget.refreshAfterDate = refreshDate
 
   const headStack = widget.addStack()
   headStack.centerAlignContent()
@@ -174,7 +183,7 @@ async function downloadImage(url) {
 async function importModuleOptional(module_name) {
     const ICLOUD =  module.filename
                       .includes('Documents/iCloud~')
-    const fm = FileManager()
+    const fm = FileManager.local()
     if (!/\.js$/.test(module_name)) {
       module_name = module_name + '.js'
     }
