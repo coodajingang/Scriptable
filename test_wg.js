@@ -8,7 +8,8 @@ var nobg = !PREFER_TRANSPARENT_BG ? null
 async function createWidget(widgetFamily='large') {  
   
   const widget = new ListWidget()
-  widget.setPadding(10,30,10,30)
+  widget.setPadding(10,10,10,10)
+  widget.spacing(10)
 
   widget.backgroundColor = Color.dynamic(
     new Color(LIGHT_MODE_BGCOLOR), 
@@ -147,4 +148,28 @@ async function downloadImage(url) {
   const img = await req.loadImage()
   return img
 }
+
+async function importModuleOptional(module_name) {
+    const ICLOUD =  module.filename
+                      .includes('Documents/iCloud~')
+    const fm = FileManager[ICLOUD 
+                            ? 'iCloud' 
+                            : 'local']()
+    if (!/\.js$/.test(module_name)) {
+      module_name = module_name + '.js'
+    }
+    const module_path = fm.joinPath
+                          (fm.documentsDirectory(), 
+                          module_name)
+    if (!fm.fileExists(module_path)) {
+      log(`module ${module_name} does not exist`)
+      return null
+    }
+    if (ICLOUD) {
+      await fm.downloadFileFromiCloud(module_path)
+    }
+    const mod = importModule(module_name)
+    return mod
+}
+
 // ----------------
