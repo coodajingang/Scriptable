@@ -85,7 +85,7 @@ async function createWidget(widgetFamily='large') {
 
 function addDZ(mainStack, first, second) {
     const subStack = mainStack.addStack()
-    subStack.borderWidth = 2
+    //subStack.borderWidth = 2
     subStack.layoutVertically()
     const ft = subStack.addText(first)
     ft.centerAlignText()
