@@ -1,0 +1,54 @@
+# This workflow will build a docker container, publish and deploy it to Tencent Kubernetes Engine (TKE) when there is a push to the "v2" branch.
+#
+# To configure this workflow:
+#
+# 1. Ensure that your repository contains the necessary configuration for your Tencent Kubernetes Engine cluster,
+#    including deployment.yml, kustomization.yml, service.yml, etc.
+#
+# 2. Set up secrets in your workspace:
+#    - TENCENT_CLOUD_SECRET_ID with Tencent Cloud secret id
+#    - TENCENT_CLOUD_SECRET_KEY with Tencent Cloud secret key
+#    - TENCENT_CLOUD_ACCOUNT_ID with Tencent Cloud account id
+#    - TKE_REGISTRY_PASSWORD with TKE registry password
+#
+# 3. Change the values for the TKE_IMAGE_URL, TKE_REGION, TKE_CLUSTER_ID and DEPLOYMENT_NAME environment variables (below).
+
+name: tranimage
+
+on:
+  push:
+    branches: [ "v2" ]
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  TKE_IMAGE_URL: ccr.ccs.tencentyun.com/demo/mywebapp
+  TKE_REGION: ap-guangzhou
+  TKE_CLUSTER_ID: cls-mywebapp
+  DEPLOYMENT_NAME: tke-test
+
+permissions:
+  contents: read
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    # Build
+    - name: Build Docker image
+      run: |
+        docker pull jgraph/drawio
+
+    - name: Login TKE Registry
+      run: |
+        docker login ccr.ccs.tencentyun.com --username=100001072195 --password=986523dtx
+
+    # Push the Docker image to TKE Registry
+    - name: tag & Publish 
+      run: |
+        docker tag jgraph/drawio ccr.ccs.tencentyun.com/asdfa/drawio:v2
+
+    - name: push 
+      run: |
+        docker push ccr.ccs.tencentyun.com/asdfa/drawio:v2
